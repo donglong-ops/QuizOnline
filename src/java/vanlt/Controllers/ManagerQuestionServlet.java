@@ -20,8 +20,8 @@ import vanlt.dtos.QuestionDto;
  *
  * @author AVITA
  */
-@WebServlet(name = "ManagerQuizServlet", urlPatterns = {"/ManagerQuizServlet"})
-public class ManagerQuizServlet extends HttpServlet {
+@WebServlet(name = "ManagerQuestionServlet", urlPatterns = {"/ManagerQuestionServlet"})
+public class ManagerQuestionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,7 +54,6 @@ public class ManagerQuizServlet extends HttpServlet {
         }
 
         try {
-            //int sizeQuestion = dao.getQuestionSize();
             int sizeQuestion = dao.countTotalQuestion(Integer.parseInt(subId), questionName);
             int page = (int) (Math.ceil((double) sizeQuestion / 6));
             request.setAttribute("numOfQuiz", sizeQuestion);

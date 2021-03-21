@@ -36,28 +36,26 @@ public class UpdateQuestionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        String questId = request.getParameter("questionID");
         String content = request.getParameter("content");
-        String quesID = request.getParameter("questionID");
         String opt1 = request.getParameter("opt1");
         String opt2 = request.getParameter("opt2");
         String opt3 = request.getParameter("opt3");
         String opt4 = request.getParameter("opt4");
-        String answer = request.getParameter("ans");
-        QuestionDto dto = new QuestionDto(Integer.parseInt(quesID), content, answer);   
-        dto.addOption(opt1);
-        dto.addOption(opt2);
-        dto.addOption(opt3);
-        dto.addOption(opt4);
+        String ans = request.getParameter("ans");
         QuestionDAO dao = new QuestionDAO();
+        QuestionDto dto = new QuestionDto(Integer.parseInt(questId), content, opt1, opt2, opt3, opt4, ans);
+        
         try {
             boolean result = dao.updateQuestion(dto);
-            if (result) {
+            if(result) {
                 response.sendRedirect("managerQuestion");
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            
             out.close();
         }
     }

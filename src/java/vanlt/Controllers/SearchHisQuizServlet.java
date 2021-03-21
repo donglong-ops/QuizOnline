@@ -3,28 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vanlt.Controller;
+package vanlt.Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import vanlt.daos.UserDAO;
+import vanlt.daos.QuizHistoryDAO;
+import vanlt.dtos.QuizHistoryDto;
 import vanlt.dtos.UserDto;
 
 /**
  *
  * @author AVITA
  */
-@WebServlet(name = "DeleteQuestionServlet", urlPatterns = {"/DeleteQuestionServlet"})
-public class DeleteQuestionServlet extends HttpServlet {
+@WebServlet(name = "SearchHisQuizServlet", urlPatterns = {"/SearchHisQuizServlet"})
+public class SearchHisQuizServlet extends HttpServlet {
 
-    private final String URL_INVALID_PAGE = "invalid";
-    private final String URL_SEARCH_PAGE = "searchPage";
+    private final String URL_STUDENT_PAGE = "historyQuiz";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,24 +41,25 @@ public class DeleteQuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = URL_INVALID_PAGE;
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("txtPassword");
+
+        HttpSession session = request.getSession();
+        UserDto dto = (UserDto) session.getAttribute("USER");
+        String subjectId = request.getParameter("subjectID");
+        String status = request.getParameter("status");
+
         try {
-            //String encryPassword = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
-            if (username != null && password != null && username.trim().length() > 0 && password.trim().length() > 0) {
-                UserDAO dao = new UserDAO();
-                UserDto result = dao.checkLogin(username, password);
-                if (result != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("USER", result);
-                    url = URL_SEARCH_PAGE;
+            if (dto.getUserName() != null) {
+                QuizHistoryDAO dao = new QuizHistoryDAO();
+                List<QuizHistoryDto> listHistQ = dao.searchQuizHistoryPaging(dto.getId(), Integer.parseInt(subjectId), Integer.parseInt(status));
+                if(session.getAttribute("quizHistoryById") != null){
+                    session.removeAttribute("quizHistoryById");
                 }
+                session.setAttribute("quizHistoryById", listHistQ);
             }
-        } catch (Exception ex) {
-           ex.printStackTrace();
+        } catch (SQLException ex) {
+            log("Search History: " + ex.getMessage());
         } finally {
-            response.sendRedirect(url);
+            response.sendRedirect(URL_STUDENT_PAGE);
             out.close();
         }
     }

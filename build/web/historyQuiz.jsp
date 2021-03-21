@@ -23,11 +23,12 @@
     <body>
         <div id="main-panel">
             <jsp:include page="navbar.jsp" />  
-            <c:set var="history" value="${sessionScope.quizHistoryById}"/>
+            <c:set var="history" value="${sessionScope.quizHistory}"/>
             <c:if test="${not empty sessionScope.USER}">
                 <li><p style="color: red">Welcome, ${sessionScope.USER.userName}</p></li>
                 </c:if>
-            <Form action="searchQ" method="Post">
+            <h3>Quiz history<br></h3>
+            <Form action="searchHisQuiz" method="Post">
                 <select name="status">
                     <option value="0">Status </option>
                     <option value="1">Passed </option>
@@ -36,21 +37,21 @@
                 <select name="subjectID">
                     <option value="0">All </option>
                     <option value="1">PRJ311 </option>
-                    <option value="2">PRJ213 </option>
+                    <option value="2">PRJ321 </option>
                 </select> 
                 <button>Search</button>
             </Form>
+            <hr/>
             <c:if test="${not empty history }">
-                <table class="tableHis"style="margin-left: 3%">
-                    <h3>Quiz history<br></h3>
+                <table class="tableHis"style="margin-left: 10%">
                     <thead>
                         <tr>
                             <th>Student</th>
-                            <th>Total Question</th>
-                            <th>Correct Question</th>
+                            <th>Subject</th>
+                            <th>No. Question</th>
+                            <th>No. Correct</th>
                             <th>Mark</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,11 +59,16 @@
                             <c:set var="mark" value="${hisDto.getMark(hisDto.correctAnswer, hisDto.numOfQuiz)}"/>
                             <tr>
                                 <td>${hisDto.studentName}</td>
+                                <c:if test="${hisDto.subjectId == '1'}">
+                                    <td>PRJ311</td>
+                                </c:if>
+                                <c:if test="${hisDto.subjectId == '2'}">
+                                    <td>PRJ321</td>
+                                </c:if>
                                 <td>${hisDto.numOfQuiz}</td>
                                 <td>${hisDto.correctAnswer}</td>
                                 <td>${mark}</td>
                                 <td>${hisDto.getStatusQuiz(mark)}</td>
-                                <td><a href="">View</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>

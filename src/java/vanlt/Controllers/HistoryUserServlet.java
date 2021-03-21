@@ -44,11 +44,11 @@ public class HistoryUserServlet extends HttpServlet {
             HttpSession session = request.getSession();
             UserDto userDto = (UserDto) session.getAttribute("USER");
             if (userDto.getEmail() != null) {
-                List<QuizHistoryDto> listHistQ = new QuizHistoryDAO().getHisById(userDto.getId());
-                session.setAttribute("quizHistoryById", listHistQ);
+                List<QuizHistoryDto> listHistQ = new QuizHistoryDAO().getHis(userDto.getId());
+                session.setAttribute("quizHistory", listHistQ);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+          log("Error HisUserServlet: "+ex.getMessage());
         } finally {
             response.sendRedirect(URL_STUDENT_PAGE);
             out.close();

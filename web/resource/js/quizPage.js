@@ -1,4 +1,4 @@
-this.timeRemaining = 180;
+this.timeRemaining = 0;
 this.timeDisplay = document.getElementById("timeDisplay");
 this.questionPos = document.getElementById("qustionPos");
 this.currentQuiz = 0;
@@ -7,13 +7,14 @@ this.testing = 0;
 this.numOfQuiz = 0;
 
 var nextQuestion = function () {
-    currentQuiz = (currentQuiz + 1) % numOfQuiz;
+    currentQuiz = currentQuiz % numOfQuiz;
     if (this.currentDiv !== null) {
         this.currentDiv.classList.add("hidden");
     }
     currentDiv = document.getElementById("q" + currentQuiz);
     currentDiv.classList.remove("hidden");
     questionPos.textContent = "Question: " + (currentQuiz + 1) + "/" + numOfQuiz;
+    this.currentQuiz++;
 }
 
 var quizStart = function () {
@@ -35,14 +36,10 @@ var updateTime = function () {
     timeDisplay.textContent = time + ":" + sec;
 }
 
-window.onbeforeunload = function () {
-    if (testing !== 0)
-        return "Are you sure?";
-}
 
 var setNumOfQuiz = function (n) {
     numOfQuiz = n;
-    this.timeRemaining = 180;
+    this.timeRemaining = n*30; // mỗi câu hỏi có 30s, cứ dùng số câu hỏi * 30s
     this.timeDisplay = document.getElementById("timeDisplay");
     this.questionPos = document.getElementById("qustionPos");
     this.currentQuiz = 0;

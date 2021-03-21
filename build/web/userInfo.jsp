@@ -38,12 +38,13 @@
                 Type: Student<br>
             </c:if>
             <c:if test="${not empty history && user.type == 1 }">
-                <table style="margin-left: 15%">
+                <table style="margin-left: 5%">
                     <h3>Quiz history<br></h3>
                     <thead>
                         <tr>
                             <th>Student</th>
-                            <th>Total Question</th>
+                            <th>Subject</th>
+                            <th>No.Question</th>
                             <th>CorrectQuestion</th>
                             <th>Mark</th>
                             <th>Status</th>
@@ -54,6 +55,12 @@
                             <c:set var="mark" value="${hisDto.getMark(hisDto.correctAnswer, hisDto.numOfQuiz)}"/>
                             <tr>
                                 <td>${hisDto.studentName}</td>
+                                <c:if test="${hisDto.subjectId == '1'}">
+                                    <td>PRJ311</td>
+                                </c:if>
+                                <c:if test="${hisDto.subjectId == '2'}">
+                                    <td>PRJ321</td>
+                                </c:if>
                                 <td>${hisDto.numOfQuiz}</td>
                                 <td>${hisDto.correctAnswer}</td>
                                 <td>${mark}</td>

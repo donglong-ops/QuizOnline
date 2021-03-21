@@ -63,7 +63,7 @@ ul {
 li {
     display: inline-block;
 }
-table, th, td {border: 1px dashed #000}
+table, th, td {border: 1px solid  #000}
 .form-action{
     margin-left: 10%;
 }

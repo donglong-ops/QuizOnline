@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+
 /**
  *
  * @author AVITA
@@ -14,8 +15,11 @@ public class QuizHistoryDto implements Serializable{
     private int id;
     private String studentName;
     private int numOfQuiz;
+    private int subjectId;
     private int correctAnswer;
     private Date dateQuiz;
+    
+    
 
     public QuizHistoryDto(int id, String studentName, int numOfQuiz, int correctAnswer) {
         this.id = id;
@@ -31,6 +35,16 @@ public class QuizHistoryDto implements Serializable{
         this.correctAnswer = correctAnswer;
         this.dateQuiz = dateQuiz;
     }
+
+    public QuizHistoryDto(int id, String studentName, int numOfQuiz, int subjectId, int correctAnswer, Date dateQuiz) {
+        this.id = id;
+        this.studentName = studentName;
+        this.numOfQuiz = numOfQuiz;
+        this.subjectId = subjectId;
+        this.correctAnswer = correctAnswer;
+        this.dateQuiz = dateQuiz;
+    }
+    
     
 
     public int getId() {
@@ -73,14 +87,21 @@ public class QuizHistoryDto implements Serializable{
         this.dateQuiz = dateQuiz;
     }
     
+    public int getSubjectId() {
+        return subjectId;
+    }
 
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+    
     public double getMark(int correctAnswer, int numOfQuiz) {
         double mark = (double) correctAnswer / (double) numOfQuiz;
         mark *= 10;
         NumberFormat formatter = new DecimalFormat("#0.00");
         return Double.parseDouble(formatter.format(mark));
     }
-    
+
     public String getStatusQuiz(double mark){
         String status;
         if(mark >= 4){

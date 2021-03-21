@@ -35,15 +35,6 @@
                                 <td><input type="password" name="password" required></td>
                             </tr>
                             <tr>
-                                <td>Type</td>
-                                <td>
-                                    <select name="roleType" >
-                                        <option value='0'>Student</option>
-                                        <option value='1'>Teacher</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Full Name: </td>
                                 <td><input type="text" name="username" value="${param.username}" required></td>
                             </tr>

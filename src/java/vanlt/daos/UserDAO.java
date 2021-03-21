@@ -34,7 +34,7 @@ public class UserDAO {
     }
 
     public UserDto checkLogin(String userName, String password) throws Exception {
-        UserDto returnValue = null;
+        UserDto dto = null;
         try {
             conn = MyConnection.getMyConnection();
             preStm = conn.prepareStatement("select * from Users where email = ? and password= ?");
@@ -42,32 +42,32 @@ public class UserDAO {
             preStm.setString(2, password);
             rs = preStm.executeQuery();
             while (rs.next()) {
-                returnValue = new UserDto(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getInt("type"));
+                dto = new UserDto(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getInt("type"));
             }
         } catch (Exception ex) {
             throw ex;
         } finally {
             closeConnection();
         }
-        return returnValue;
+        return dto;
     }
 
     public int validateNewUser(String email) throws Exception {
-        int returnValue = 0;
+        int value = 0;
         try {
             conn = MyConnection.getMyConnection();
             preStm = conn.prepareCall("select * from Users where email =?  ");
             preStm.setString(1, email);
             rs = preStm.executeQuery();
             while (rs.next()) {
-                returnValue = -1;
+                value = -1;
             }
         } catch (Exception ex) {
             throw ex;
         } finally {
             closeConnection();
         }
-        return returnValue;
+        return value;
     }
 
     public boolean addUser(UserDto newUser) throws Exception {

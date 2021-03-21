@@ -37,7 +37,7 @@ public class RegisterAccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String type = request.getParameter("roleType");
+       
         String email = request.getParameter("email");
         String url = null;
         UserDAO dao = new UserDAO();
@@ -48,9 +48,8 @@ public class RegisterAccountServlet extends HttpServlet {
                 request.getRequestDispatcher("registerAccount.jsp").forward(request, response);
             } else {
                 String encryPassword = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
-                if (username.trim().length() > 0 && password.trim().length() > 0 && type.length() > 0 && email.length() > 0) {
-
-                    UserDto dto = new UserDto(10, username, encryPassword, email, Integer.parseInt(type));
+                if (username.trim().length() > 0 && password.trim().length() > 0  && email.length() > 0) {
+                    UserDto dto = new UserDto(10, username, encryPassword, email, 0);
                     boolean result = dao.addUser(dto);
                     if (result) {
                         url = URL_LOGIN_PAGE;
@@ -62,7 +61,6 @@ public class RegisterAccountServlet extends HttpServlet {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             log("Error Register Account: " + ex.getMessage());
         }
     }
